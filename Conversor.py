@@ -29,16 +29,20 @@ for line in pedidos:
     col=0
     if line[0].isdigit() or line[0] == " " and line.find(',') != -1:
         if line[0].isdigit():
-            data = line.rstrip().split("-")[0].split()[0]
+            data ='/'.join((line.rstrip().split("-")[0].split()[0]).split('/')[:2])+'/20'+(line.rstrip().split("-")[0].split()[0]).split('/')[-1]
             pedido = line.rstrip().split("-")[0].split()[2]
             cliente = line.rstrip().split("-")[0].split()[3]+'-'+' '.join(line.rstrip().split("-")[1].split()[:-6])
             item, cor, qtd, exp, alm, s = line.rstrip().split("-")[1].split()[-6:]
+
             if cor[0].isdigit():
                 cor = int(cor)
             try:
                 item2 = dic[item]
             except:
-                item2 = '0'
+                if item[0:4]=='9010':
+                  item2=item
+                else:
+                  item2 = '0'
             try:    
                 gravar = [data, pedido, cliente, item, cor, int(qtd.split(',')[0]), int(exp.split(',')[0]), int(alm.split(',')[0]), int(s), int(item2)]
             except:
@@ -51,7 +55,10 @@ for line in pedidos:
             try:
                 item2 = dic[item]
             except:
-                item2 = '0'
+                if item[0:4]=='9010':
+                  item2=item
+                else:
+                  item2 = '0'
             try:
                 gravar = [data, pedido, cliente, item, cor, int(qtd.split(',')[0]), int(exp.split(',')[0]), int(alm.split(',')[0]), int(s), int(item2)]
             except:
